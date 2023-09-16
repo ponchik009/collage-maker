@@ -1,0 +1,20 @@
+.buttonUpload {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  max-width: 60vw;
+  border: 1px dashed black;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.buttonUpload:hover {
+  background: #f7f7f7;
+}

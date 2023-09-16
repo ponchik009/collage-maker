@@ -1,38 +1,63 @@
 .App {
-  text-align: center;
-}
+  height: 100vh;
+  width: 100vw;
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
 }
 
-.App-link {
-  color: #61dafb;
+.AppContainer {
+  margin: auto;
+  display: grid;
+
+  grid-template-columns: repeat(8, 156px);
+  grid-template-rows: repeat(8, 64px);
+
+  gap: 16px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Upload:nth-of-type(1) {
+  grid-row: span 8;
+  grid-column: span 4;
+}
+
+.Upload:nth-of-type(2) {
+  grid-row: span 4;
+  grid-column: span 4;
+}
+
+.Upload:nth-of-type(3) {
+  grid-row: span 4;
+  grid-column: span 2;
+}
+
+.Upload:nth-of-type(4) {
+  grid-row: span 4;
+}
+
+.Upload:nth-of-type(5),
+.Upload:nth-of-type(6) {
+  grid-row: span 2;
+}
+
+.ButtonUpload {
+  width: 100%;
+  height: 100%;
+}
+
+.ImageUpload {
+  width: 100%;
+  height: 100%;
+
+  cursor: pointer;
+
+  border-radius: 8px;
+
+  object-fit: cover;
+  object-position: 0 0;
+
+  border: 1px dashed black;
+
+  user-select: none;
 }

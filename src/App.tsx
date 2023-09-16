@@ -1,24 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+
+import "./App.css";
+
+import { UploadComponent } from "./components/UploadComponent/UploadComponent";
 
 function App() {
+  const appRef = React.createRef<HTMLDivElement>();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" ref={appRef}>
+      <div className="AppContainer">
+        {Array(6)
+          .fill(Math.random())
+          .map((_, index) => (
+            <UploadComponent key={index} anchor={appRef} />
+          ))}
+      </div>
     </div>
   );
 }
