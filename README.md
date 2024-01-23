@@ -8,8 +8,8 @@
 
 ## Стек
 
-+ React
-+ Typescript
+- React
+- Typescript
 
 ## Инструкция по запуску
 
@@ -17,6 +17,8 @@
  npm i
 ```
 
+### Создаем файл .env.prod и заполняем в соответствии с .env.example.prod
+
 ```console
- npm start
+ npm start:prod
 ```
