@@ -4,16 +4,25 @@ import { FileUpload } from "../FileUpload/FileUpload";
 import { ButtonUpload } from "../ButtonUpload/ButtonUpload";
 
 import { ReactComponent as IconAdd } from "../../assets/icons/IconAdd.svg";
+import { CollageImage } from "../../types";
 
 let prevMouseX: number | null = null;
 let prevMouseY: number | null = null;
 
 interface IUploadCopmonentProps {
-  anchor?: React.RefObject<HTMLElement>;
+  onLoad: (position: number, image: File) => void;
+  onUpdate: (id: string, x: number, y: number) => void;
+  position: number;
+  data: CollageImage | null;
 }
 
+let firstRender = true;
+
 export const UploadComponent: React.FC<IUploadCopmonentProps> = ({
-  anchor,
+  onLoad,
+  onUpdate,
+  position,
+  data,
 }) => {
   const [picture, setPicture] = React.useState<File | null>(null);
 
@@ -32,8 +41,8 @@ export const UploadComponent: React.FC<IUploadCopmonentProps> = ({
   };
 
   const [[imgX, imgY], _setImgPosition] = React.useState<[string, string]>([
-    "0px",
-    "0px",
+    `${data?.x || 0}px`,
+    `${data?.y || 0}px`,
   ]);
   const imgPositionRef = React.useRef([imgX, imgY]);
   const setImgPosition = (data: [string, string]) => {
@@ -42,6 +51,8 @@ export const UploadComponent: React.FC<IUploadCopmonentProps> = ({
   };
 
   const imgRef = React.useRef<HTMLImageElement | null>();
+  const timerRef = React.useRef<NodeJS.Timeout | null>(null);
+  const imageIdRef = React.useRef<string | null>(null);
 
   React.useEffect(() => {
     const onMouseUp = (e: MouseEvent) => {
@@ -102,6 +113,14 @@ export const UploadComponent: React.FC<IUploadCopmonentProps> = ({
       }
 
       setImgPosition([`${newImgX}px`, `${newImgY}px`]);
+
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+
+      timerRef.current = setTimeout(() => {
+        onUpdate(imageIdRef.current || "", newImgX, newImgY);
+      }, 300);
     };
     document.documentElement.addEventListener("mousemove", onMouseOverImg);
 
@@ -110,6 +129,11 @@ export const UploadComponent: React.FC<IUploadCopmonentProps> = ({
       document.documentElement.removeEventListener("mousemove", onMouseOverImg);
     };
   }, []);
+
+  React.useEffect(() => {
+    setImgPosition([`${data?.x || 0}px`, `${data?.y || 0}px`]);
+    imageIdRef.current = data?.id || null;
+  }, [data]);
 
   React.useEffect(() => {
     if (picture) {
@@ -131,8 +155,12 @@ export const UploadComponent: React.FC<IUploadCopmonentProps> = ({
   };
 
   const onImageChange = (file: File | null) => {
-    setPicture(file);
-    setImgPosition(["0", "0"]);
+    if (file) {
+      setPicture(file);
+      setImgPosition(["0", "0"]);
+
+      onLoad(position, file);
+    }
   };
 
   const onMouseClick = (e: React.MouseEvent) => {
@@ -144,12 +172,13 @@ export const UploadComponent: React.FC<IUploadCopmonentProps> = ({
 
   return (
     <FileUpload setFile={onImageChange} accept="image/*" className="Upload">
-      {!picture ? (
+      {!picture && !data?.src ? (
         <ButtonUpload className="ButtonUpload">
           <IconAdd />
         </ButtonUpload>
       ) : (
         <img
+          src={`${process.env.REACT_APP_API}/${data?.src}`}
           ref={(el) => (imgRef.current = el)}
           className="ImageUpload"
           style={{ objectPosition: `${imgX} ${imgY}` }}

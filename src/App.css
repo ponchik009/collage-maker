@@ -3,12 +3,54 @@
   width: 100vw;
 
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-around;
   align-items: center;
 }
 
+.AppForm {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.AppForm button {
+  cursor: pointer;
+}
+
+.AppUsers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.AppUser {
+  background-color: #f0ca99;
+  border-radius: 48px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.AppUser img {
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+  border: 1px solid #fff;
+}
+
+.AppUser {
+  font-size: 18px;
+}
+
+.AppUser_me {
+  background-color: rgb(134, 226, 134);
+}
+
 .AppContainer {
-  margin: auto;
+  /* margin: auto; */
   display: grid;
 
   grid-template-columns: repeat(8, 156px);
